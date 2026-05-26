@@ -1,0 +1,129 @@
+:root {
+  --bg: #0e1620;
+  --panel: #15202d;
+  --panel-2: #1c2a3a;
+  --accent: #f08a24;
+  --accent-2: #ffb066;
+  --text: #e6edf3;
+  --muted: #94a3b8;
+  --border: #243447;
+  --success: #22c55e;
+  --danger: #ef4444;
+  --warning: #eab308;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+a { color: var(--accent-2); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+.navbar {
+  background: linear-gradient(90deg, #0a1019, #15202d);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+.navbar .logo {
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--accent);
+  letter-spacing: 1px;
+}
+.navbar nav { display: flex; gap: 18px; flex: 1; }
+.navbar nav a { color: var(--text); }
+.navbar nav a.active { color: var(--accent); }
+.navbar .user { color: var(--muted); font-size: 14px; }
+
+.container { max-width: 1100px; margin: 0 auto; padding: 24px; }
+
+.hero {
+  background: linear-gradient(135deg, #15202d, #1f3245);
+  padding: 60px 40px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+.hero h1 { margin: 0 0 12px; font-size: 36px; color: var(--accent-2); }
+.hero p { color: var(--muted); max-width: 700px; }
+
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-top: 24px; }
+.card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 18px;
+}
+.card h3 { margin: 0 0 8px; color: var(--accent-2); font-size: 16px; }
+.card p { color: var(--muted); font-size: 14px; margin: 0; }
+
+h2 { margin-top: 0; }
+
+.toolbar { display: flex; gap: 12px; align-items: center; margin-bottom: 16px; flex-wrap: wrap; }
+.toolbar input, .toolbar select {
+  background: var(--panel);
+  color: var(--text);
+  border: 1px solid var(--border);
+  padding: 8px 10px;
+  border-radius: 6px;
+}
+
+table { width: 100%; border-collapse: collapse; background: var(--panel); border-radius: 8px; overflow: hidden; }
+th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border); font-size: 14px; }
+th { background: var(--panel-2); color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 12px; }
+tbody tr:hover { background: rgba(240, 138, 36, 0.05); }
+
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  background: var(--panel-2);
+  color: var(--muted);
+}
+.badge.success { background: rgba(34, 197, 94, 0.15); color: var(--success); }
+.badge.warn { background: rgba(234, 179, 8, 0.15); color: var(--warning); }
+.badge.danger { background: rgba(239, 68, 68, 0.15); color: var(--danger); }
+.badge.accent { background: rgba(240, 138, 36, 0.15); color: var(--accent-2); }
+
+button {
+  background: var(--accent);
+  color: #0e1620;
+  border: 0;
+  padding: 9px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+button:hover { background: var(--accent-2); }
+button.secondary { background: var(--panel-2); color: var(--text); }
+button.danger { background: var(--danger); color: white; }
+
+.form { max-width: 420px; background: var(--panel); padding: 24px; border-radius: 10px; border: 1px solid var(--border); }
+.form label { display: block; margin-bottom: 12px; font-size: 14px; color: var(--muted); }
+.form input, .form select, .form textarea {
+  width: 100%;
+  padding: 9px 11px;
+  margin-top: 4px;
+  background: var(--panel-2);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-family: inherit;
+}
+.form textarea { min-height: 80px; resize: vertical; }
+.error { color: var(--danger); margin-top: 8px; font-size: 14px; }
+.notice { color: var(--muted); font-size: 13px; }
+
+.modal-backdrop {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.55);
+  display: flex; align-items: center; justify-content: center; z-index: 50;
+}
+.modal { background: var(--panel); border: 1px solid var(--border); border-radius: 10px; padding: 24px; min-width: 360px; }
