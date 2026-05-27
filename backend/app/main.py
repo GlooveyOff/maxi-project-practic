@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import settings
-from app.routers import auth, fields, requests, wells
+from app.routers import auth, brigades, fields, requests, stats, users, wells
 
 app = FastAPI(
     title="Нефтегаз API",
@@ -23,6 +23,9 @@ app.include_router(auth.router, prefix=api_prefix)
 app.include_router(fields.router, prefix=api_prefix)
 app.include_router(wells.router, prefix=api_prefix)
 app.include_router(requests.router, prefix=api_prefix)
+app.include_router(brigades.router, prefix=api_prefix)
+app.include_router(users.router, prefix=api_prefix)
+app.include_router(stats.router, prefix=api_prefix)
 
 
 @app.get("/api/health")

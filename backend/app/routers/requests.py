@@ -1,9 +1,11 @@
+from datetime import datetime, timezone
+
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy.orm import Session
 
 from app.database import get_db
 from app.deps import get_current_user
-from app.models import MaintenanceRequest, User, UserRole, Well
+from app.models import Brigade, MaintenanceRequest, RequestStatus, User, UserRole, Well
 from app.schemas import RequestCreate, RequestOut, RequestUpdate
 
 router = APIRouter(prefix="/requests", tags=["requests"])
@@ -35,11 +37,14 @@ def create_request(
 ):
     if not db.get(Well, payload.well_id):
         raise HTTPException(status_code=400, detail="Скважина не найдена")
+    if payload.brigade_id is not None and not db.get(Brigade, payload.brigade_id):
+        raise HTTPException(status_code=400, detail="Бригада не найдена")
     req = MaintenanceRequest(
         well_id=payload.well_id,
         title=payload.title,
         description=payload.description,
         priority=payload.priority,
+        brigade_id=payload.brigade_id,
         author_id=current_user.id,
     )
     db.add(req)
@@ -60,8 +65,16 @@ def update_request(
         raise HTTPException(status_code=404, detail="Заявка не найдена")
     if current_user.role != UserRole.admin and req.author_id != current_user.id:
         raise HTTPException(status_code=403, detail="Нет прав на изменение заявки")
-    for key, value in payload.model_dump(exclude_unset=True).items():
+    updates = payload.model_dump(exclude_unset=True)
+    if "brigade_id" in updates and updates["brigade_id"] is not None:
+        if not db.get(Brigade, updates["brigade_id"]):
+            raise HTTPException(status_code=400, detail="Бригада не найдена")
+    for key, value in updates.items():
         setattr(req, key, value)
+    if req.status == RequestStatus.done and req.closed_at is None:
+        req.closed_at = datetime.now(timezone.utc)
+    elif req.status != RequestStatus.done:
+        req.closed_at = None
     db.commit()
     db.refresh(req)
     return req
