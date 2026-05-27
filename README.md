@@ -141,9 +141,9 @@ TEST_DATABASE_URL=postgresql+psycopg://neftegaz:neftegaz@localhost:5433/neftegaz
 
 - Мамонов Александр — Lead
 - Кузьма Кузнецов — DB dev
-- Дмитрий Шинкоренко — Product manager
+- Дмитрий Шинкаренко — Document lead
 - Егор Андреев — Backend dev
-- Доменик — Backend dev
+- Доменик Каличава — Frontend dev
 - Никита Лукашев — AI agent
 - Кирилл Щерба — QA Engineer
 
