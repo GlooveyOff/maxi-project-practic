@@ -53,4 +53,24 @@ export const api = {
     patch: (id, data) => request(`/requests/${id}`, { method: "PATCH", body: data, auth: true }),
     remove: (id) => request(`/requests/${id}`, { method: "DELETE", auth: true }),
   },
+
+  brigades: {
+    list: (params = {}) => {
+      const q = new URLSearchParams(params).toString();
+      return request(`/brigades${q ? `?${q}` : ""}`, { auth: true });
+    },
+    create: (data) => request("/brigades", { method: "POST", body: data, auth: true }),
+    patch: (id, data) => request(`/brigades/${id}`, { method: "PATCH", body: data, auth: true }),
+    remove: (id) => request(`/brigades/${id}`, { method: "DELETE", auth: true }),
+  },
+
+  users: {
+    list: () => request("/users", { auth: true }),
+    patch: (id, data) => request(`/users/${id}`, { method: "PATCH", body: data, auth: true }),
+    remove: (id) => request(`/users/${id}`, { method: "DELETE", auth: true }),
+  },
+
+  stats: {
+    overview: () => request("/stats/overview", { auth: true }),
+  },
 };

@@ -18,6 +18,8 @@ export default function Navbar() {
         <NavLink to="/fields">Месторождения</NavLink>
         {user && <NavLink to="/wells">Скважины</NavLink>}
         {user && <NavLink to="/requests">Заявки</NavLink>}
+        {user && <NavLink to="/brigades">Бригады</NavLink>}
+        {user && <NavLink to="/stats">Статистика</NavLink>}
       </nav>
       {user ? (
         <>

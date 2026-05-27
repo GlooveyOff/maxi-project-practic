@@ -8,6 +8,8 @@ import Fields from "./pages/Fields.jsx";
 import FieldDetail from "./pages/FieldDetail.jsx";
 import Wells from "./pages/Wells.jsx";
 import Requests from "./pages/Requests.jsx";
+import Brigades from "./pages/Brigades.jsx";
+import Stats from "./pages/Stats.jsx";
 
 export default function App() {
   return (
@@ -31,6 +33,22 @@ export default function App() {
           element={
             <ProtectedRoute>
               <Requests />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="brigades"
+          element={
+            <ProtectedRoute>
+              <Brigades />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="stats"
+          element={
+            <ProtectedRoute>
+              <Stats />
             </ProtectedRoute>
           }
         />
