@@ -59,7 +59,7 @@ export default function Fields() {
     <>
       <h2>Месторождения</h2>
       <div className="toolbar">
-        <input placeholder="Поиск по названию…" value={q} onChange={(e) => setQ(e.target.value)} />
+        <input placeholder="Поиск месторождения по названию…" value={q} onChange={(e) => setQ(e.target.value)} autoFocus />
         {isAdmin && <button onClick={() => setShowForm(true)}>+ Добавить</button>}
       </div>
 

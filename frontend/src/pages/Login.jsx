@@ -25,11 +25,24 @@ export default function Login() {
       <h2>Вход</h2>
       <label>
         Email
-        <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} />
+        <input
+          type="email"
+          autoFocus
+          placeholder="ivanov@neftegaz.ru"
+          required
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
       </label>
       <label>
         Пароль
-        <input type="password" required value={password} onChange={(e) => setPassword(e.target.value)} />
+        <input
+          type="password"
+          placeholder="••••••••"
+          required
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
       </label>
       <button type="submit">Войти</button>
       {err && <div className="error">{err}</div>}
