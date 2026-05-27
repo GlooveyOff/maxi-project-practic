@@ -3,6 +3,7 @@ from datetime import datetime
 from pydantic import BaseModel, ConfigDict, EmailStr, Field
 
 from app.models import (
+    BrigadeStatus,
     FieldStatus,
     RequestPriority,
     RequestStatus,
@@ -98,11 +99,40 @@ class WellOut(WellBase):
     model_config = ConfigDict(from_attributes=True)
 
 
+class BrigadeBase(BaseModel):
+    name: str = Field(min_length=2, max_length=120)
+    foreman: str = Field(min_length=2, max_length=150)
+    members_count: int = Field(ge=1, le=50, default=1)
+    phone: str | None = Field(default=None, max_length=40)
+    status: BrigadeStatus = BrigadeStatus.available
+
+
+class BrigadeCreate(BrigadeBase):
+    pass
+
+
+class BrigadeUpdate(BaseModel):
+    name: str | None = Field(default=None, min_length=2, max_length=120)
+    foreman: str | None = Field(default=None, min_length=2, max_length=150)
+    members_count: int | None = Field(default=None, ge=1, le=50)
+    phone: str | None = Field(default=None, max_length=40)
+    status: BrigadeStatus | None = None
+
+
+class BrigadeOut(BrigadeBase):
+    id: int
+    created_at: datetime
+    active_requests: int = 0
+
+    model_config = ConfigDict(from_attributes=True)
+
+
 class RequestBase(BaseModel):
     well_id: int
     title: str = Field(min_length=3, max_length=200)
     description: str = Field(min_length=3)
     priority: RequestPriority = RequestPriority.medium
+    brigade_id: int | None = None
 
 
 class RequestCreate(RequestBase):
@@ -114,12 +144,14 @@ class RequestUpdate(BaseModel):
     description: str | None = None
     status: RequestStatus | None = None
     priority: RequestPriority | None = None
+    brigade_id: int | None = None
 
 
 class RequestOut(RequestBase):
     id: int
     status: RequestStatus
     author_id: int | None
+    closed_at: datetime | None
     created_at: datetime
 
     model_config = ConfigDict(from_attributes=True)

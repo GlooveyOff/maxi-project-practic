@@ -51,6 +51,13 @@ class RequestPriority(str, enum.Enum):
     critical = "critical"
 
 
+class BrigadeStatus(str, enum.Enum):
+    available = "available"
+    on_site = "on_site"
+    resting = "resting"
+    off_duty = "off_duty"
+
+
 class User(Base):
     __tablename__ = "users"
 
@@ -109,17 +116,41 @@ class Well(Base):
         return f"<Well id={self.id} name={self.name!r} field_id={self.field_id}>"
 
 
+class Brigade(Base):
+    __tablename__ = "brigades"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    name: Mapped[str] = mapped_column(String(120), unique=True, nullable=False, index=True)
+    foreman: Mapped[str] = mapped_column(String(150), nullable=False)
+    members_count: Mapped[int] = mapped_column(Integer, default=1, nullable=False)
+    phone: Mapped[str | None] = mapped_column(String(40), nullable=True)
+    status: Mapped[BrigadeStatus] = mapped_column(
+        Enum(BrigadeStatus), default=BrigadeStatus.available, nullable=False
+    )
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+
+    requests: Mapped[list["MaintenanceRequest"]] = relationship(back_populates="brigade")
+
+    def __repr__(self) -> str:
+        return f"<Brigade id={self.id} name={self.name!r} status={self.status.value}>"
+
+
 class MaintenanceRequest(Base):
     __tablename__ = "maintenance_requests"
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     well_id: Mapped[int] = mapped_column(ForeignKey("wells.id", ondelete="CASCADE"), nullable=False, index=True)
     author_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="SET NULL"), nullable=True, index=True)
+    brigade_id: Mapped[int | None] = mapped_column(
+        ForeignKey("brigades.id", ondelete="SET NULL"), nullable=True, index=True
+    )
     title: Mapped[str] = mapped_column(String(200), nullable=False)
     description: Mapped[str] = mapped_column(Text, nullable=False)
     status: Mapped[RequestStatus] = mapped_column(Enum(RequestStatus), default=RequestStatus.new, nullable=False)
     priority: Mapped[RequestPriority] = mapped_column(Enum(RequestPriority), default=RequestPriority.medium, nullable=False)
+    closed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
 
     well: Mapped["Well"] = relationship(back_populates="requests")
     author: Mapped["User"] = relationship(back_populates="requests")
+    brigade: Mapped["Brigade | None"] = relationship(back_populates="requests")
