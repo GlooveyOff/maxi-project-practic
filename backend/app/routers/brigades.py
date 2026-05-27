@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 
 from app.database import get_db
 from app.deps import get_current_user, require_admin
-from app.models import Brigade, MaintenanceRequest, RequestStatus, User
+from app.models import Brigade, BrigadeStatus, MaintenanceRequest, RequestStatus, User
 from app.schemas import BrigadeCreate, BrigadeOut, BrigadeUpdate
 
 router = APIRouter(prefix="/brigades", tags=["brigades"])
@@ -35,7 +35,10 @@ def list_brigades(
 ):
     query = db.query(Brigade)
     if status_filter:
-        query = query.filter(Brigade.status == status_filter)
+        try:
+            query = query.filter(Brigade.status == BrigadeStatus(status_filter))
+        except ValueError:
+            return []
     brigades = query.order_by(Brigade.name).all()
     counts = _active_counts(db)
     return [_to_out(b, counts) for b in brigades]
