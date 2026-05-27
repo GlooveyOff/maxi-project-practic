@@ -64,6 +64,9 @@ class User(Base):
 
     requests: Mapped[list["MaintenanceRequest"]] = relationship(back_populates="author")
 
+    def __repr__(self) -> str:
+        return f"<User id={self.id} email={self.email!r} role={self.role.value}>"
+
 
 class OilField(Base):
     __tablename__ = "fields"
@@ -80,6 +83,9 @@ class OilField(Base):
     wells: Mapped[list["Well"]] = relationship(
         back_populates="field", cascade="all, delete-orphan"
     )
+
+    def __repr__(self) -> str:
+        return f"<OilField id={self.id} name={self.name!r} status={self.status.value}>"
 
 
 class Well(Base):
@@ -98,6 +104,9 @@ class Well(Base):
     requests: Mapped[list["MaintenanceRequest"]] = relationship(
         back_populates="well", cascade="all, delete-orphan"
     )
+
+    def __repr__(self) -> str:
+        return f"<Well id={self.id} name={self.name!r} field_id={self.field_id}>"
 
 
 class MaintenanceRequest(Base):
