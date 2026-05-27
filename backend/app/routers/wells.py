@@ -20,7 +20,7 @@ def list_wells(
         query = query.filter(Well.field_id == field_id)
     if status_filter:
         query = query.filter(Well.status == status_filter)
-    return query.order_by(Well.name).all()
+    return query.order_by(Well.field_id, Well.name).all()
 
 
 @router.get("/{well_id}", response_model=WellOut)

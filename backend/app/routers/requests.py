@@ -13,6 +13,7 @@ router = APIRouter(prefix="/requests", tags=["requests"])
 def list_requests(
     well_id: int | None = Query(default=None),
     status_filter: str | None = Query(default=None, alias="status"),
+    priority: str | None = Query(default=None),
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
@@ -21,6 +22,8 @@ def list_requests(
         query = query.filter(MaintenanceRequest.well_id == well_id)
     if status_filter:
         query = query.filter(MaintenanceRequest.status == status_filter)
+    if priority:
+        query = query.filter(MaintenanceRequest.priority == priority)
     return query.order_by(MaintenanceRequest.created_at.desc()).all()
 
 
