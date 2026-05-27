@@ -139,13 +139,29 @@ TEST_DATABASE_URL=postgresql+psycopg://neftegaz:neftegaz@localhost:5433/neftegaz
 
 ## Команда проекта
 
-- Мамонов Александр — Lead
-- Кузьма Кузнецов — DB dev
-- Дмитрий Шинкаренко — Document lead
-- Егор Андреев — Backend dev
-- Доменик Каличава — Frontend dev
-- Никита Лукашев — DevOps
-- Кирилл Щерба — QA Engineer
+- **Мамонов Александр** — Lead. Завёл репозиторий, настроил защиту
+  `main` и схему работы через PR, делил задачи между ребятами, ревьюил
+  изменения и собирал финальную сборку к защите.
+- **Кузьма Кузнецов** — DB developer. Спроектировал модель данных
+  (`User`, `OilField`, `Well`, `MaintenanceRequest`), внешние ключи и
+  enum-типы, настроил Alembic и написал стартовую миграцию.
+- **Дмитрий Шинкаренко** — Document lead. Вёл всю документацию:
+  user stories ([docs/user_stories.md](docs/user_stories.md)), описание
+  моделей ([docs/models.md](docs/models.md)), README и сценарий защиты
+  ([docs/presentation.md](docs/presentation.md)).
+- **Егор Андреев** — Backend developer. Реализовал роутеры FastAPI
+  (`fields`, `wells`, `requests`): CRUD-эндпоинты, поиск/фильтрацию,
+  Pydantic-валидацию и проверку прав администратора.
+- **Доменик Каличава** — Frontend developer. Собрал React-приложение
+  на Vite: роутинг, страницы (Home, Fields, FieldDetail, Wells,
+  Requests), формы создания и `AuthContext` для работы с JWT.
+- **Никита Лукашев** — DevOps. Подготовил `docker-compose` с
+  основной и тестовой БД, описал `.env`-шаблоны, разобрал запуск
+  в dev-окружении и довёл проект до состояния «одна команда — и
+  поднимается».
+- **Кирилл Щерба** — QA Engineer. Поднял тестовое окружение
+  (отдельная БД `neftegaz_test`), написал pytest-тесты на auth,
+  fields и wells, прогонял ручные сценарии в браузере и заводил баги.
 
 ## Лицензия
 
