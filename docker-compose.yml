@@ -1,4 +1,27 @@
 services:
+  api:
+    build: ./backend
+    container_name: neftegaz_api
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql+psycopg://neftegaz:neftegaz@db:5432/neftegaz
+      SECRET_KEY: ${SECRET_KEY:-dev_secret_change_me_in_prod}
+      CORS_ORIGINS: http://localhost
+    ports:
+      - "8000:8000"
+    profiles: ["full"]
+
+  web:
+    build: ./frontend
+    container_name: neftegaz_web
+    depends_on:
+      - api
+    ports:
+      - "80:80"
+    profiles: ["full"]
+
   db:
     image: postgres:15-alpine
     container_name: neftegaz_db
